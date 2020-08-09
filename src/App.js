@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useReducer } from "react"
 import socketIOClient from "socket.io-client"
 
 export default function App(){
-  const [chatData, setChatData] = useState("")
+  const [chatData, setChatData] = useState([])
   const [socket, setSocket] = useState(null)
 
   //const socket = 
@@ -14,24 +14,27 @@ export default function App(){
   useEffect(()=>{
     if(!socket) return;
     
-    socket.on("chat-message", data =>{
-      console.log(data)
-      setChatData(data)
+    socket.on("new-user", data =>{
+      var name = prompt("Hi there, whats your name?")
+      setChatData(...chatData, data)
+      socket.emit("new-user", name)
     })
   },[socket])
   
 
-  const connectUser = () => {
+  const sendMessage = () => {
     if(socket)
-      socket.emit("new_user", "Kalle")
+      socket.emit("chat-message", "Bla bla bla")
   }
 
 
   return(
     <div>
       <h1>Här är min frontend</h1>
+      <div>
+        <button onClick={sendMessage}>Send message</button>
+      </div>
       {chatData}
-      <button onClick={connectUser}>Send message</button>
     </div>
   )
 }
