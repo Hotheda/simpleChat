@@ -38,7 +38,7 @@ export default function App(){
     e.preventDefault()
     if(socket)
       socket.emit("chat-message", messageToSend)
-      var myMessage = <div> <p style={{color: "red"}} >You: {messageToSend}</p> <hr/> </div>;
+      var myMessage = <div> <p style={{backgroundColor: "lightgrey", color: "red"}} >You: {messageToSend}</p> <hr/> </div>;
       setChatData(chatData => [...chatData, myMessage])
       setMessageToSend("")
   }
@@ -51,7 +51,7 @@ export default function App(){
     <div>
       <h1>Welcome to the chat {chatName}</h1>
       <form>
-        <input id="chat-input" value={messageToSend} onChange={(e) => onMessageChange(e)} />
+        <input id="chat-input" value={messageToSend} onChange={(e) => onMessageChange(e)} autoComplete="off" />
         <button onClick={(e) => sendMessage(e) }>Send message</button>
       </form>
       {chatData ? chatData.map( item => <div>{item}</div> ) : null}
