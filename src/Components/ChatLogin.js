@@ -1,5 +1,4 @@
 import React, { useState } from "react"
-import Chat from "./Chat"
 
 export default function ChatLogin(props){
     const[name, setName] = useState()

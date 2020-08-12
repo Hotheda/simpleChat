@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import Chat from "./Components/Chat"
 import ChatLogin from "./Components/ChatLogin"
+import "./Styles/chat.css"
 
 export default function App(){
   const [chatName, setChatName] = useState()
