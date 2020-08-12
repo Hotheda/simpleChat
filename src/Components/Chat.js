@@ -2,15 +2,11 @@ import React, { useState, useEffect } from "react"
 import socketIOClient from "socket.io-client"
 import Chatlog from "./Chatlog"
 
-export default function Chat(){
+export default function Chat(props){
     const [socket, setSocket] = useState(null)
-    const [chatName, setChatName] = useState("Default")
+    const {chatName} = props
     const [messageToSend, setMessageToSend] = useState()
-    const [chatData, setChatData] = useState([])
-    //const []
-
-
-  //const socket = 
+    const [chatLogData, setChatLogData] = useState()
 
   useEffect(()=>{
     setSocket(socketIOClient("http://192.168.1.153:4000"))
@@ -20,18 +16,12 @@ export default function Chat(){
     if(!socket) return;
     
     socket.on("new-user", data => {
-      var name = null
-      //while(!name)
-        name = prompt("Hi there, whats your name?")
-
-      setChatName(name)
-      setChatData([...chatData, data])
-      socket.emit("new-user", name)
+      setChatLogData([{user: "You", message: "Joined the chat"}])
+      socket.emit("new-user", chatName)
     })
 
     socket.on("chat-message", data => {
-      var myMessage = <div> <p>{data}</p> <hr/> </div>;
-      setChatData(chatData => [...chatData, myMessage])
+        setChatLogData(chatData => [...chatData, data])
     })
 
   },[socket])
@@ -39,11 +29,12 @@ export default function Chat(){
 
   const sendMessage = (e) => {
     e.preventDefault()
-    if(socket)
-      socket.emit("chat-message", messageToSend)
-      var myMessage = <div> <p style={{backgroundColor: "lightgrey", color: "red"}} >You: {messageToSend}</p> <hr/> </div>;
-      setChatData(chatData => [...chatData, myMessage])
-      setMessageToSend("")
+    if(!socket)
+        return;
+    
+    socket.emit("chat-message", messageToSend)
+    setChatLogData(chatData => [...chatData, {user: "You", message: messageToSend}])
+    setMessageToSend("")
   }
 
   const onMessageChange = (e) => {
@@ -57,7 +48,7 @@ export default function Chat(){
         <input id="chat-input" value={messageToSend} onChange={(e) => onMessageChange(e)} autoComplete="off" />
         <button onClick={(e) => sendMessage(e) }>Send message</button>
       </form>
-      <Chatlog chatData = {chatData} />
+      <Chatlog chatLogData = {chatLogData} />
     </div>
   )
 }

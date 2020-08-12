@@ -1,15 +1,23 @@
 import React, { useState } from "react"
 import Chat from "./Components/Chat"
+import ChatLogin from "./Components/ChatLogin"
 
 export default function App(){
-  const [chatName, setChatName] = useState("")
+  const [chatName, setChatName] = useState()
 
+  if(chatName)
   return(
     <div>
       <h1>Welcome to the App {chatName}</h1>
       <div>
-        <Chat name = {chatName} />
+        <Chat chatName = {chatName} />
       </div>
+    </div>
+  )
+
+  return(
+    <div>
+      <ChatLogin setChatName={setChatName} />
     </div>
   )
 }

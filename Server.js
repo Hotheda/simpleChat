@@ -7,11 +7,13 @@ io.on('connection', socket => {
     socket.on('new-user', name => {
         console.log("User joined: " + name + " - " + socket.id)
         socket.name = name
-        socket.broadcast.emit('chat-message', name + ": joined")
+        const messageToSend = {user: socket.name, message: "Joined the chat"}
+        socket.broadcast.emit('chat-message', messageToSend)
     })
 
     socket.on('chat-message', message => {
         console.log(socket.id, message)
-        socket.broadcast.emit('chat-message', socket.name + ": " + message)
+        const messageToSend = {user: socket.name, message: message}
+        socket.broadcast.emit('chat-message', messageToSend)
     })
 })
