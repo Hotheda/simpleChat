@@ -8,7 +8,6 @@ export default function App(){
   if(chatName)
   return(
     <div>
-      <h1>Welcome to the App {chatName}</h1>
       <div>
         <Chat chatName = {chatName} />
       </div>

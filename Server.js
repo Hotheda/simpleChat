@@ -16,4 +16,10 @@ io.on('connection', socket => {
         const messageToSend = {user: socket.name, message: message}
         socket.broadcast.emit('chat-message', messageToSend)
     })
+
+    socket.on("priv-message", message => {
+        /*
+            Send to specific socket here
+        */
+    })
 })
