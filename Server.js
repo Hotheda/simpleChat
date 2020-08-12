@@ -1,6 +1,13 @@
 const io = require('socket.io')(4000)
 
 
+/*
+    Store sockets in an array contianing socket and user name
+    Check if username is taken and request a namechange if thats the case
+    Send list of users on login and on remote user login
+*/
+
+
 io.on('connection', socket => {
     socket.emit("new-user", "Hej på dig du!")
 
